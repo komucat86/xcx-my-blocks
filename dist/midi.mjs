@@ -1,17 +1,17 @@
 var en$1 = {
-	"midi.entry.name": "MIDI",
-	"midi.entry.description": "MIDI extension for controlling musical instruments and devices"
+	"midi.entry.name": "MIDI Input",
+	"midi.entry.description": "Receive MIDI input from keyboards and controllers"
 };
 var ja$1 = {
-	"midi.entry.name": "MIDI",
-	"midi.entry.description": "楽器やデバイスを制御するためのMIDI拡張機能"
+	"midi.entry.name": "MIDI入力",
+	"midi.entry.description": "キーボードとコントローラーからMIDI入力を受け取る"
 };
 var translations$1 = {
 	en: en$1,
 	ja: ja$1,
 	"ja-Hira": {
-	"midi.entry.name": "MIDI",
-	"midi.entry.description": "がっきやでばいすをせいぎょするためのMIDIかくちょうきのう"
+	"midi.entry.name": "MIDI入力",
+	"midi.entry.description": "キーボードとコントローラーからMIDI入力をうけとる"
 }
 };
 
@@ -36,7 +36,7 @@ var entry = {
   get name() {
     return formatMessage$1({
       id: 'midi.entry.name',
-      defaultMessage: 'MIDI',
+      defaultMessage: 'MIDI Input',
       description: 'name of the extension'
     });
   },
@@ -45,8 +45,8 @@ var entry = {
   collaborator: 'komucat86',
   get description() {
     return "".concat(formatMessage$1({
-      defaultMessage: 'MIDI extension for controlling musical instruments and devices',
-      description: 'Description for MIDI extension',
+      defaultMessage: 'Receive MIDI input from keyboards and controllers',
+      description: 'Description for MIDI input extension',
       id: 'midi.entry.description'
     }), " (").concat(version, ")");
   },
@@ -61,6 +61,57 @@ var entry = {
   },
   translationMap: translations$1
 };
+
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r;
+}
+
+function _iterableToArrayLimit(r, l) {
+  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = true,
+      o = false;
+    try {
+      if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+    } catch (r) {
+      o = true, n = r;
+    } finally {
+      try {
+        if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
+      } finally {
+        if (o) throw n;
+      }
+    }
+    return a;
+  }
+}
+
+function _arrayLikeToArray$1(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
+
+function _unsupportedIterableToArray$1(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray$1(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray$1(r, a) : void 0;
+  }
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _slicedToArray(r, e) {
+  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray$1(r, e) || _nonIterableRest();
+}
 
 function _classCallCheck(a, n) {
   if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
@@ -105,22 +156,22 @@ function _createClass(e, r, t) {
 }
 
 var en = {
-	"midi.name": "MIDI",
-	"midi.noteOn": "send Note On note [NOTE] velocity [VELOCITY] channel [CHANNEL]",
-	"midi.noteOff": "send Note Off note [NOTE] velocity [VELOCITY] channel [CHANNEL]",
-	"midi.controlChange": "send CC controller [CONTROLLER] value [VALUE] channel [CHANNEL]",
-	"midi.programChange": "send Program Change program [PROGRAM] channel [CHANNEL]",
-	"midi.pitchBend": "send Pitch Bend value [VALUE] channel [CHANNEL]",
+	"midi.name": "MIDI Input",
+	"midi.lastNote": "last note",
+	"midi.lastVelocity": "last velocity",
+	"midi.lastController": "last controller",
+	"midi.lastControlValue": "last CC value",
+	"midi.isNotePressed": "note [NOTE] pressed?",
 	"midi.getAvailableDevices": "MIDI devices",
 	"midi.isInitialized": "MIDI initialized?"
 };
 var ja = {
-	"midi.name": "MIDI",
-	"midi.noteOn": "ノートオン ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
-	"midi.noteOff": "ノートオフ ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
-	"midi.controlChange": "CC送信 コントローラー [CONTROLLER] 値 [VALUE] チャンネル [CHANNEL]",
-	"midi.programChange": "プログラムチェンジ プログラム [PROGRAM] チャンネル [CHANNEL]",
-	"midi.pitchBend": "ピッチベンド 値 [VALUE] チャンネル [CHANNEL]",
+	"midi.name": "MIDI入力",
+	"midi.lastNote": "最後のノート",
+	"midi.lastVelocity": "最後のベロシティ",
+	"midi.lastController": "最後のコントローラー",
+	"midi.lastControlValue": "最後のCC値",
+	"midi.isNotePressed": "ノート [NOTE] が押されている?",
 	"midi.getAvailableDevices": "MIDIデバイス",
 	"midi.isInitialized": "MIDI初期化済み?"
 };
@@ -128,12 +179,12 @@ var translations = {
 	en: en,
 	ja: ja,
 	"ja-Hira": {
-	"midi.name": "MIDI",
-	"midi.noteOn": "ノートオン ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
-	"midi.noteOff": "ノートオフ ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
-	"midi.controlChange": "CC送信 コントローラー [CONTROLLER] 値 [VALUE] チャンネル [CHANNEL]",
-	"midi.programChange": "プログラムチェンジ プログラム [PROGRAM] チャンネル [CHANNEL]",
-	"midi.pitchBend": "ピッチベンド 値 [VALUE] チャンネル [CHANNEL]",
+	"midi.name": "MIDI入力",
+	"midi.lastNote": "さいごのノート",
+	"midi.lastVelocity": "さいごのベロシティ",
+	"midi.lastController": "さいごのコントローラー",
+	"midi.lastControlValue": "さいごのCC値",
+	"midi.isNotePressed": "ノート [NOTE] がおされている?",
 	"midi.getAvailableDevices": "MIDIデバイス",
 	"midi.isInitialized": "MIDI初期化済み?"
 }
@@ -145,7 +196,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 // BlockType definition
 var BlockType = {
-  COMMAND: 'command',
   REPORTER: 'reporter',
   BOOLEAN: 'boolean'};
 
@@ -193,11 +243,11 @@ var EXTENSION_ID = 'midi';
 var extensionURL = 'https://komucat86.github.io/xcx-my-blocks/dist/midi.mjs';
 
 /**
- * MIDI Extension for Scratch 3.0
+ * MIDI Extension for Scratch 3.0 - MIDI Input (Receiver)
  */
 var MidiExtension = /*#__PURE__*/function () {
   /**
-   * Construct a set of blocks for MIDI.
+   * Construct a set of blocks for MIDI Input.
    * @param {Runtime} runtime - the Scratch 3.0 runtime.
    */
   function MidiExtension(runtime) {
@@ -214,9 +264,17 @@ var MidiExtension = /*#__PURE__*/function () {
 
     // MIDI state
     this.midiAccess = null;
-    this.midiOutput = null;
+    this.midiInput = null;
     this.isInitialized = false;
     this.availableDevices = [];
+
+    // Received MIDI data
+    this.lastNote = null;
+    this.lastVelocity = 0;
+    this.lastController = null;
+    this.lastControlValue = 0;
+    this.noteStates = {}; // Track which notes are currently pressed
+    this.lastChannel = 0;
 
     // Initialize MIDI Access
     this.initMidiAccess();
@@ -237,6 +295,11 @@ var MidiExtension = /*#__PURE__*/function () {
         _this.midiAccess = midiAccess;
         _this.isInitialized = true;
         _this.updateAvailableDevices();
+
+        // Set up MIDI device change listener
+        midiAccess.addEventListener('statechange', function (event) {
+          _this.updateAvailableDevices();
+        });
         console.log('MIDI Access initialized successfully');
       }, function (error) {
         console.error('Failed to initialize MIDI Access:', error);
@@ -251,15 +314,15 @@ var MidiExtension = /*#__PURE__*/function () {
     value: function updateAvailableDevices() {
       if (!this.midiAccess) return;
       this.availableDevices = [];
-      var outputs = this.midiAccess.outputs.values();
-      var _iterator = _createForOfIteratorHelper(outputs),
+      var inputs = this.midiAccess.inputs.values();
+      var _iterator = _createForOfIteratorHelper(inputs),
         _step;
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var output = _step.value;
+          var input = _step.value;
           this.availableDevices.push({
-            id: output.id,
-            name: output.name
+            id: input.id,
+            name: input.name
           });
         }
       } catch (err) {
@@ -270,17 +333,28 @@ var MidiExtension = /*#__PURE__*/function () {
     }
 
     /**
-     * Select a MIDI output device
+     * Select a MIDI input device
      * @param {string} deviceId - The ID of the MIDI device
      */
   }, {
     key: "selectDevice",
     value: function selectDevice(deviceId) {
+      var _this2 = this;
       if (!this.midiAccess) return;
       try {
-        this.midiOutput = this.midiAccess.outputs.get(deviceId);
-        if (this.midiOutput) {
-          console.log("Selected MIDI device: ".concat(this.midiOutput.name));
+        // Stop listening to previous device
+        if (this.midiInput) {
+          this.midiInput.removeEventListener('midimessage', this.onMidiMessage.bind(this));
+        }
+
+        // Get new device
+        this.midiInput = this.midiAccess.inputs.get(deviceId);
+        if (this.midiInput) {
+          // Listen for MIDI messages
+          this.midiInput.addEventListener('midimessage', function (event) {
+            _this2.onMidiMessage(event);
+          });
+          console.log("Selected MIDI input device: ".concat(this.midiInput.name));
         }
       } catch (error) {
         console.error('Failed to select MIDI device:', error);
@@ -288,125 +362,96 @@ var MidiExtension = /*#__PURE__*/function () {
     }
 
     /**
-     * Send Note On message
-     * @param {number} note - Note number (0-127)
-     * @param {number} velocity - Velocity (0-127)
-     * @param {number} channel - MIDI channel (0-15)
+     * Handle incoming MIDI messages
+     * @param {MIDIMessageEvent} event - MIDI message event
      */
   }, {
-    key: "noteOn",
-    value: function noteOn(note, velocity, channel) {
-      if (!this.midiOutput) {
-        console.warn('No MIDI device selected');
-        return;
+    key: "onMidiMessage",
+    value: function onMidiMessage(event) {
+      var _event$data = _slicedToArray(event.data, 3),
+        command = _event$data[0],
+        note = _event$data[1],
+        value = _event$data[2];
+      var channel = command & 0x0F;
+      var status = command & 0xF0;
+      this.lastChannel = channel;
+
+      // Note On (0x90)
+      if (status === 0x90 && value > 0) {
+        this.lastNote = note;
+        this.lastVelocity = value;
+        this.noteStates[note] = true;
+        console.log("Note On: Note=".concat(note, ", Velocity=").concat(value, ", Channel=").concat(channel));
       }
+      // Note Off (0x80) or Note On with velocity 0
+      else if (status === 0x80 || status === 0x90 && value === 0) {
+        this.lastNote = note;
+        this.lastVelocity = value;
+        delete this.noteStates[note];
+        console.log("Note Off: Note=".concat(note, ", Channel=").concat(channel));
+      }
+      // Control Change (0xB0)
+      else if (status === 0xB0) {
+        this.lastController = note;
+        this.lastControlValue = value;
+        console.log("CC: Controller=".concat(note, ", Value=").concat(value, ", Channel=").concat(channel));
+      }
+    }
+
+    /**
+     * Get last received note number
+     * @return {number} - Note number (0-127)
+     */
+  }, {
+    key: "getLastNote",
+    value: function getLastNote() {
+      return this.lastNote !== null ? this.lastNote : 0;
+    }
+
+    /**
+     * Get last received velocity
+     * @return {number} - Velocity (0-127)
+     */
+  }, {
+    key: "getLastVelocity",
+    value: function getLastVelocity() {
+      return this.lastVelocity;
+    }
+
+    /**
+     * Get last received controller number
+     * @return {number} - Controller number (0-127)
+     */
+  }, {
+    key: "getLastController",
+    value: function getLastController() {
+      return this.lastController !== null ? this.lastController : 0;
+    }
+
+    /**
+     * Get last received CC value
+     * @return {number} - CC value (0-127)
+     */
+  }, {
+    key: "getLastControlValue",
+    value: function getLastControlValue() {
+      return this.lastControlValue;
+    }
+
+    /**
+     * Check if a specific note is currently pressed
+     * @param {number} note - Note number to check
+     * @return {boolean} - true if note is pressed
+     */
+  }, {
+    key: "isNotePressedValue",
+    value: function isNotePressedValue(note) {
       var noteNum = Math.max(0, Math.min(127, Cast.toNumber(note)));
-      var vel = Math.max(0, Math.min(127, Cast.toNumber(velocity)));
-      var ch = Math.max(0, Math.min(15, Cast.toNumber(channel)));
-      var noteOnMessage = [0x90 + ch, noteNum, vel];
-      try {
-        this.midiOutput.send(noteOnMessage);
-      } catch (error) {
-        console.error('Failed to send Note On message:', error);
-      }
+      return this.noteStates[noteNum] === true;
     }
 
     /**
-     * Send Note Off message
-     * @param {number} note - Note number (0-127)
-     * @param {number} velocity - Velocity (0-127)
-     * @param {number} channel - MIDI channel (0-15)
-     */
-  }, {
-    key: "noteOff",
-    value: function noteOff(note, velocity, channel) {
-      if (!this.midiOutput) {
-        console.warn('No MIDI device selected');
-        return;
-      }
-      var noteNum = Math.max(0, Math.min(127, Cast.toNumber(note)));
-      var vel = Math.max(0, Math.min(127, Cast.toNumber(velocity)));
-      var ch = Math.max(0, Math.min(15, Cast.toNumber(channel)));
-      var noteOffMessage = [0x80 + ch, noteNum, vel];
-      try {
-        this.midiOutput.send(noteOffMessage);
-      } catch (error) {
-        console.error('Failed to send Note Off message:', error);
-      }
-    }
-
-    /**
-     * Send Control Change message (CC)
-     * @param {number} controller - CC number (0-127)
-     * @param {number} value - CC value (0-127)
-     * @param {number} channel - MIDI channel (0-15)
-     */
-  }, {
-    key: "controlChange",
-    value: function controlChange(controller, value, channel) {
-      if (!this.midiOutput) {
-        console.warn('No MIDI device selected');
-        return;
-      }
-      var ctrl = Math.max(0, Math.min(127, Cast.toNumber(controller)));
-      var val = Math.max(0, Math.min(127, Cast.toNumber(value)));
-      var ch = Math.max(0, Math.min(15, Cast.toNumber(channel)));
-      var ccMessage = [0xB0 + ch, ctrl, val];
-      try {
-        this.midiOutput.send(ccMessage);
-      } catch (error) {
-        console.error('Failed to send CC message:', error);
-      }
-    }
-
-    /**
-     * Send Program Change message
-     * @param {number} program - Program number (0-127)
-     * @param {number} channel - MIDI channel (0-15)
-     */
-  }, {
-    key: "programChange",
-    value: function programChange(program, channel) {
-      if (!this.midiOutput) {
-        console.warn('No MIDI device selected');
-        return;
-      }
-      var prog = Math.max(0, Math.min(127, Cast.toNumber(program)));
-      var ch = Math.max(0, Math.min(15, Cast.toNumber(channel)));
-      var pcMessage = [0xC0 + ch, prog];
-      try {
-        this.midiOutput.send(pcMessage);
-      } catch (error) {
-        console.error('Failed to send Program Change message:', error);
-      }
-    }
-
-    /**
-     * Send Pitch Bend message
-     * @param {number} value - Pitch bend value (0-16383, 8192 is center/no bend)
-     * @param {number} channel - MIDI channel (0-15)
-     */
-  }, {
-    key: "pitchBend",
-    value: function pitchBend(value, channel) {
-      if (!this.midiOutput) {
-        console.warn('No MIDI device selected');
-        return;
-      }
-      var bendValue = Math.max(0, Math.min(16383, Cast.toNumber(value)));
-      var ch = Math.max(0, Math.min(15, Cast.toNumber(channel)));
-      var lsb = bendValue & 0x7F;
-      var msb = bendValue >> 7 & 0x7F;
-      var pitchBendMessage = [0xE0 + ch, lsb, msb];
-      try {
-        this.midiOutput.send(pitchBendMessage);
-      } catch (error) {
-        console.error('Failed to send Pitch Bend message:', error);
-      }
-    }
-
-    /**
-     * Get list of available MIDI devices
+     * Get list of available MIDI input devices
      * @return {string} - comma-separated list of device names
      */
   }, {
@@ -441,110 +486,54 @@ var MidiExtension = /*#__PURE__*/function () {
         extensionURL: MidiExtension.extensionURL,
         showStatusButton: false,
         blocks: [{
-          opcode: 'note-on',
-          blockType: BlockType.COMMAND,
+          opcode: 'last-note',
+          blockType: BlockType.REPORTER,
           text: formatMessage({
-            id: 'midi.noteOn',
-            default: 'send Note On note [NOTE] velocity [VELOCITY] channel [CHANNEL]',
-            description: 'send MIDI Note On message'
+            id: 'midi.lastNote',
+            default: 'last note',
+            description: 'get last received note number'
           }),
-          func: 'noteOn',
+          func: 'getLastNote'
+        }, {
+          opcode: 'last-velocity',
+          blockType: BlockType.REPORTER,
+          text: formatMessage({
+            id: 'midi.lastVelocity',
+            default: 'last velocity',
+            description: 'get last received velocity'
+          }),
+          func: 'getLastVelocity'
+        }, {
+          opcode: 'last-controller',
+          blockType: BlockType.REPORTER,
+          text: formatMessage({
+            id: 'midi.lastController',
+            default: 'last controller',
+            description: 'get last received CC number'
+          }),
+          func: 'getLastController'
+        }, {
+          opcode: 'last-control-value',
+          blockType: BlockType.REPORTER,
+          text: formatMessage({
+            id: 'midi.lastControlValue',
+            default: 'last CC value',
+            description: 'get last received CC value'
+          }),
+          func: 'getLastControlValue'
+        }, {
+          opcode: 'is-note-pressed',
+          blockType: BlockType.BOOLEAN,
+          text: formatMessage({
+            id: 'midi.isNotePressed',
+            default: 'note [NOTE] pressed?',
+            description: 'check if a note is currently pressed'
+          }),
+          func: 'isNotePressedValue',
           arguments: {
             NOTE: {
               type: ArgumentType.NUMBER,
               defaultValue: 60
-            },
-            VELOCITY: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 100
-            },
-            CHANNEL: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            }
-          }
-        }, {
-          opcode: 'note-off',
-          blockType: BlockType.COMMAND,
-          text: formatMessage({
-            id: 'midi.noteOff',
-            default: 'send Note Off note [NOTE] velocity [VELOCITY] channel [CHANNEL]',
-            description: 'send MIDI Note Off message'
-          }),
-          func: 'noteOff',
-          arguments: {
-            NOTE: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 60
-            },
-            VELOCITY: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            },
-            CHANNEL: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            }
-          }
-        }, {
-          opcode: 'control-change',
-          blockType: BlockType.COMMAND,
-          text: formatMessage({
-            id: 'midi.controlChange',
-            default: 'send CC controller [CONTROLLER] value [VALUE] channel [CHANNEL]',
-            description: 'send MIDI Control Change message'
-          }),
-          func: 'controlChange',
-          arguments: {
-            CONTROLLER: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 7
-            },
-            VALUE: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 64
-            },
-            CHANNEL: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            }
-          }
-        }, {
-          opcode: 'program-change',
-          blockType: BlockType.COMMAND,
-          text: formatMessage({
-            id: 'midi.programChange',
-            default: 'send Program Change program [PROGRAM] channel [CHANNEL]',
-            description: 'send MIDI Program Change message'
-          }),
-          func: 'programChange',
-          arguments: {
-            PROGRAM: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            },
-            CHANNEL: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
-            }
-          }
-        }, {
-          opcode: 'pitch-bend',
-          blockType: BlockType.COMMAND,
-          text: formatMessage({
-            id: 'midi.pitchBend',
-            default: 'send Pitch Bend value [VALUE] channel [CHANNEL]',
-            description: 'send MIDI Pitch Bend message'
-          }),
-          func: 'pitchBend',
-          arguments: {
-            VALUE: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 8192
-            },
-            CHANNEL: {
-              type: ArgumentType.NUMBER,
-              defaultValue: 0
             }
           }
         }, '---', {
@@ -589,7 +578,7 @@ var MidiExtension = /*#__PURE__*/function () {
     get: function get() {
       return formatMessage({
         id: 'midi.name',
-        default: 'MIDI',
+        default: 'MIDI Input',
         description: 'name of the extension'
       });
     }
