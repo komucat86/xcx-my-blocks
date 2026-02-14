@@ -283,8 +283,9 @@ var MidiExtension = /*#__PURE__*/function () {
     this.lastChannel = 0;
 
     // Event tracking
-    this.keyPressedThisFrame = false;
     this.anyKeyPressedCount = 0;
+    this.lastAnyKeyPressedTimestamp = 0;
+    this.keyPressWindowMs = 250; // ms window where a recent key press is considered "pressed"
 
     // Initialize MIDI Access
     this.initMidiAccess();
@@ -391,8 +392,8 @@ var MidiExtension = /*#__PURE__*/function () {
         this.lastNote = note;
         this.lastVelocity = value;
         this.noteStates[note] = true;
-        this.keyPressedThisFrame = true;
         this.anyKeyPressedCount++;
+        this.lastAnyKeyPressedTimestamp = Date.now();
         console.log("Note On: Note=".concat(note, ", Velocity=").concat(value, ", Channel=").concat(channel));
       }
       // Note Off (0x80) or Note On with velocity 0
@@ -469,9 +470,8 @@ var MidiExtension = /*#__PURE__*/function () {
   }, {
     key: "isAnyKeyPressed",
     value: function isAnyKeyPressed() {
-      var result = this.keyPressedThisFrame;
-      this.keyPressedThisFrame = false; // Reset after reading
-      return result;
+      if (!this.lastAnyKeyPressedTimestamp) return false;
+      return Date.now() - this.lastAnyKeyPressedTimestamp < this.keyPressWindowMs;
     }
 
     /**
