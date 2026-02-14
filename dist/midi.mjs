@@ -234,8 +234,8 @@ var formatMessage = function formatMessage(messageData) {
  * Setup format-message for this extension.
  */
 var setupTranslations = function setupTranslations() {
-  var localeSetup = formatMessage.setup();
-  if (localeSetup && localeSetup.translations[localeSetup.locale]) {
+  var localeSetup = formatMessage && typeof formatMessage.setup === 'function' ? formatMessage.setup() : null;
+  if (localeSetup && localeSetup.translations && localeSetup.translations[localeSetup.locale]) {
     Object.assign(localeSetup.translations[localeSetup.locale], translations[localeSetup.locale]);
   }
 };
@@ -288,6 +288,8 @@ var MidiExtension = /*#__PURE__*/function () {
     this.keyPressWindowMs = 250; // ms window where a recent key press is considered "pressed"
     // Bound handler reference so removeEventListener works correctly
     this._onMidiMessageBound = this.onMidiMessage.bind(this);
+    // Track attached input ids to avoid duplicate listeners
+    this._attachedInputs = new Set();
 
     // Initialize MIDI Access
     this.initMidiAccess();
@@ -300,8 +302,8 @@ var MidiExtension = /*#__PURE__*/function () {
     key: "initMidiAccess",
     value: function initMidiAccess() {
       var _this = this;
-      if (!navigator.requestMIDIAccess) {
-        console.warn('Web MIDI API is not supported in this browser');
+      if (typeof navigator === 'undefined' || !navigator.requestMIDIAccess) {
+        console.warn('Web MIDI API is not supported in this environment');
         return;
       }
       navigator.requestMIDIAccess().then(function (midiAccess) {
@@ -328,6 +330,9 @@ var MidiExtension = /*#__PURE__*/function () {
       if (!this.midiAccess) return;
       this.availableDevices = [];
       var inputs = this.midiAccess.inputs.values();
+
+      // Collect current inputs and attach listeners if not already attached
+      var currentInputIds = new Set();
       var _iterator = _createForOfIteratorHelper(inputs),
         _step;
       try {
@@ -337,11 +342,38 @@ var MidiExtension = /*#__PURE__*/function () {
             id: input.id,
             name: input.name
           });
+          currentInputIds.add(input.id);
+
+          // Attach listener to each available input if not attached yet
+          if (!this._attachedInputs.has(input.id)) {
+            try {
+              input.addEventListener('midimessage', this._onMidiMessageBound);
+              this._attachedInputs.add(input.id);
+            } catch (e) {
+              // Fallback: try assigning onmidimessage
+              try {
+                input.onmidimessage = this._onMidiMessageBound;
+                this._attachedInputs.add(input.id);
+              } catch (e2) {
+                // ignore
+              }
+            }
+          }
+          // If no explicit midiInput selected, default to first available
+          if (!this.midiInput) this.midiInput = input;
         }
+
+        // Remove tracking for inputs that disappeared
       } catch (err) {
         _iterator.e(err);
       } finally {
         _iterator.f();
+      }
+      for (var _i = 0, _Array$from = Array.from(this._attachedInputs); _i < _Array$from.length; _i++) {
+        var attachedId = _Array$from[_i];
+        if (!currentInputIds.has(attachedId)) {
+          this._attachedInputs.delete(attachedId);
+        }
       }
     }
 
@@ -363,12 +395,40 @@ var MidiExtension = /*#__PURE__*/function () {
           }
         }
 
-        // Get new device
-        this.midiInput = this.midiAccess.inputs.get(deviceId);
+        // Get new device by id first, fallback to match by name
+        var newInput = this.midiAccess.inputs.get(deviceId);
+        if (!newInput) {
+          var _iterator2 = _createForOfIteratorHelper(this.midiAccess.inputs.values()),
+            _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var input = _step2.value;
+              if (input.name === deviceId || input.id === deviceId) {
+                newInput = input;
+                break;
+              }
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+        this.midiInput = newInput || null;
         if (this.midiInput) {
-          // Listen for MIDI messages using the same bound handler
-          this.midiInput.addEventListener('midimessage', this._onMidiMessageBound);
+          try {
+            this.midiInput.addEventListener('midimessage', this._onMidiMessageBound);
+          } catch (e) {
+            try {
+              this.midiInput.onmidimessage = this._onMidiMessageBound;
+            } catch (e2) {
+              // ignore
+            }
+          }
+          this._attachedInputs.add(this.midiInput.id);
           console.log("Selected MIDI input device: ".concat(this.midiInput.name));
+        } else {
+          console.warn('Requested MIDI device not found:', deviceId);
         }
       } catch (error) {
         console.error('Failed to select MIDI device:', error);
