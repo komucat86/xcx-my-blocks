@@ -1,0 +1,14 @@
+{
+  "en": {
+    "midi.entry.name": "MIDI",
+    "midi.entry.description": "MIDI extension for controlling musical instruments and devices"
+  },
+  "ja": {
+    "midi.entry.name": "MIDI",
+    "midi.entry.description": "楽器やデバイスを制御するためのMIDI拡張機能"
+  },
+  "ja-Hira": {
+    "midi.entry.name": "MIDI",
+    "midi.entry.description": "がっきやでばいすをせいぎょするためのMIDIかくちょうきのう"
+  }
+}

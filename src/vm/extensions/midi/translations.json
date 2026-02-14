@@ -1,0 +1,32 @@
+{
+  "en": {
+    "midi.name": "MIDI",
+    "midi.noteOn": "send Note On note [NOTE] velocity [VELOCITY] channel [CHANNEL]",
+    "midi.noteOff": "send Note Off note [NOTE] velocity [VELOCITY] channel [CHANNEL]",
+    "midi.controlChange": "send CC controller [CONTROLLER] value [VALUE] channel [CHANNEL]",
+    "midi.programChange": "send Program Change program [PROGRAM] channel [CHANNEL]",
+    "midi.pitchBend": "send Pitch Bend value [VALUE] channel [CHANNEL]",
+    "midi.getAvailableDevices": "MIDI devices",
+    "midi.isInitialized": "MIDI initialized?"
+  },
+  "ja": {
+    "midi.name": "MIDI",
+    "midi.noteOn": "ノートオン ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
+    "midi.noteOff": "ノートオフ ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
+    "midi.controlChange": "CC送信 コントローラー [CONTROLLER] 値 [VALUE] チャンネル [CHANNEL]",
+    "midi.programChange": "プログラムチェンジ プログラム [PROGRAM] チャンネル [CHANNEL]",
+    "midi.pitchBend": "ピッチベンド 値 [VALUE] チャンネル [CHANNEL]",
+    "midi.getAvailableDevices": "MIDIデバイス",
+    "midi.isInitialized": "MIDI初期化済み?"
+  },
+  "ja-Hira": {
+    "midi.name": "MIDI",
+    "midi.noteOn": "ノートオン ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
+    "midi.noteOff": "ノートオフ ノート [NOTE] ベロシティ [VELOCITY] チャンネル [CHANNEL]",
+    "midi.controlChange": "CC送信 コントローラー [CONTROLLER] 値 [VALUE] チャンネル [CHANNEL]",
+    "midi.programChange": "プログラムチェンジ プログラム [PROGRAM] チャンネル [CHANNEL]",
+    "midi.pitchBend": "ピッチベンド 値 [VALUE] チャンネル [CHANNEL]",
+    "midi.getAvailableDevices": "MIDIデバイス",
+    "midi.isInitialized": "MIDI初期化済み?"
+  }
+}
