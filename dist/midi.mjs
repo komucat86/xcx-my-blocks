@@ -162,6 +162,8 @@ var en = {
 	"midi.lastController": "last controller",
 	"midi.lastControlValue": "last CC value",
 	"midi.isNotePressed": "note [NOTE] pressed?",
+	"midi.anyKeyPressed": "any key pressed?",
+	"midi.keyPressCount": "key press count",
 	"midi.getAvailableDevices": "MIDI devices",
 	"midi.isInitialized": "MIDI initialized?"
 };
@@ -172,6 +174,8 @@ var ja = {
 	"midi.lastController": "最後のコントローラー",
 	"midi.lastControlValue": "最後のCC値",
 	"midi.isNotePressed": "ノート [NOTE] が押されている?",
+	"midi.anyKeyPressed": "キーが押された?",
+	"midi.keyPressCount": "キー押下カウント",
 	"midi.getAvailableDevices": "MIDIデバイス",
 	"midi.isInitialized": "MIDI初期化済み?"
 };
@@ -185,6 +189,8 @@ var translations = {
 	"midi.lastController": "さいごのコントローラー",
 	"midi.lastControlValue": "さいごのCC値",
 	"midi.isNotePressed": "ノート [NOTE] がおされている?",
+	"midi.anyKeyPressed": "キーがおされた?",
+	"midi.keyPressCount": "キーおうかカウント",
 	"midi.getAvailableDevices": "MIDIデバイス",
 	"midi.isInitialized": "MIDI初期化済み?"
 }
@@ -275,6 +281,10 @@ var MidiExtension = /*#__PURE__*/function () {
     this.lastControlValue = 0;
     this.noteStates = {}; // Track which notes are currently pressed
     this.lastChannel = 0;
+
+    // Event tracking
+    this.keyPressedThisFrame = false;
+    this.anyKeyPressedCount = 0;
 
     // Initialize MIDI Access
     this.initMidiAccess();
@@ -381,6 +391,8 @@ var MidiExtension = /*#__PURE__*/function () {
         this.lastNote = note;
         this.lastVelocity = value;
         this.noteStates[note] = true;
+        this.keyPressedThisFrame = true;
+        this.anyKeyPressedCount++;
         console.log("Note On: Note=".concat(note, ", Velocity=").concat(value, ", Channel=").concat(channel));
       }
       // Note Off (0x80) or Note On with velocity 0
@@ -448,6 +460,29 @@ var MidiExtension = /*#__PURE__*/function () {
     value: function isNotePressedValue(note) {
       var noteNum = Math.max(0, Math.min(127, Cast.toNumber(note)));
       return this.noteStates[noteNum] === true;
+    }
+
+    /**
+     * Check if any key was pressed this frame
+     * @return {boolean} - true if any key was pressed
+     */
+  }, {
+    key: "isAnyKeyPressed",
+    value: function isAnyKeyPressed() {
+      var result = this.keyPressedThisFrame;
+      this.keyPressedThisFrame = false; // Reset after reading
+      return result;
+    }
+
+    /**
+     * Get the key press event count
+     * This increments each time a key is pressed
+     * @return {number} - current key press count
+     */
+  }, {
+    key: "getKeyPressCount",
+    value: function getKeyPressCount() {
+      return this.anyKeyPressedCount;
     }
 
     /**
@@ -536,6 +571,24 @@ var MidiExtension = /*#__PURE__*/function () {
               defaultValue: 60
             }
           }
+        }, {
+          opcode: 'any-key-pressed',
+          blockType: BlockType.BOOLEAN,
+          text: formatMessage({
+            id: 'midi.anyKeyPressed',
+            default: 'any key pressed?',
+            description: 'check if any key was pressed'
+          }),
+          func: 'isAnyKeyPressed'
+        }, {
+          opcode: 'key-press-count',
+          blockType: BlockType.REPORTER,
+          text: formatMessage({
+            id: 'midi.keyPressCount',
+            default: 'key press count',
+            description: 'get total key press events'
+          }),
+          func: 'getKeyPressCount'
         }, '---', {
           opcode: 'get-available-devices',
           blockType: BlockType.REPORTER,
