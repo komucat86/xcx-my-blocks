@@ -286,6 +286,8 @@ var MidiExtension = /*#__PURE__*/function () {
     this.anyKeyPressedCount = 0;
     this.lastAnyKeyPressedTimestamp = 0;
     this.keyPressWindowMs = 250; // ms window where a recent key press is considered "pressed"
+    // Bound handler reference so removeEventListener works correctly
+    this._onMidiMessageBound = this.onMidiMessage.bind(this);
 
     // Initialize MIDI Access
     this.initMidiAccess();
@@ -350,21 +352,22 @@ var MidiExtension = /*#__PURE__*/function () {
   }, {
     key: "selectDevice",
     value: function selectDevice(deviceId) {
-      var _this2 = this;
       if (!this.midiAccess) return;
       try {
-        // Stop listening to previous device
-        if (this.midiInput) {
-          this.midiInput.removeEventListener('midimessage', this.onMidiMessage.bind(this));
+        // Stop listening to previous device using bound handler
+        if (this.midiInput && this._onMidiMessageBound) {
+          try {
+            this.midiInput.removeEventListener('midimessage', this._onMidiMessageBound);
+          } catch (e) {
+            // ignore
+          }
         }
 
         // Get new device
         this.midiInput = this.midiAccess.inputs.get(deviceId);
         if (this.midiInput) {
-          // Listen for MIDI messages
-          this.midiInput.addEventListener('midimessage', function (event) {
-            _this2.onMidiMessage(event);
-          });
+          // Listen for MIDI messages using the same bound handler
+          this.midiInput.addEventListener('midimessage', this._onMidiMessageBound);
           console.log("Selected MIDI input device: ".concat(this.midiInput.name));
         }
       } catch (error) {
